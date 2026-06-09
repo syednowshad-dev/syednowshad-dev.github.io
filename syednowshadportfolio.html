@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syed Nowshad — Web Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #080808;
+  --off-black: #0f0f0f;
+  --card: #141414;
+  --border: #1e1e1e;
+  --border-light: #2a2a2a;
+  --lime: #d4f060;
+  --lime-dim: rgba(212,240,96,0.12);
+  --lime-glow: rgba(212,240,96,0.06);
+  --white: #f5f5f5;
+  --gray: #6b6b6b;
+  --gray-light: #9a9a9a;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--lime);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(212,240,96,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.12s ease, width 0.2s, height 0.2s, opacity 0.2s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring.hovered {
+  width: 60px; height: 60px;
+  border-color: var(--lime);
+  opacity: 0.6;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 5vw;
+  mix-blend-mode: normal;
+}
+
+nav::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%);
+  z-index: -1;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.nav-logo span { color: var(--lime); }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--gray);
+  text-decoration: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--white); }
+
+.nav-cta {
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--white);
+  padding: 0.6rem 1.4rem;
+  border-radius: 2px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+.nav-cta:hover {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: var(--black);
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 0 5vw;
+  position: relative;
+  overflow: hidden;
+  gap: 4rem;
+}
+
+.hero-bg-text {
+  position: absolute;
+  bottom: -2vw;
+  left: -1vw;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22vw;
+  font-weight: 300;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.03);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.hero-left { position: relative; z-index: 2; }
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.3s forwards;
+}
+
+.hero-eyebrow-line {
+  width: 32px;
+  height: 1px;
+  background: var(--lime);
+}
+
+.hero-eyebrow-text {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--lime);
+}
+
+.hero-dot {
+  width: 6px; height: 6px;
+  background: var(--lime);
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.5rem, 6vw, 6.5rem);
+  font-weight: 300;
+  line-height: 1.0;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.5s forwards;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--lime);
+}
+
+.hero h1 .outline {
+  -webkit-text-stroke: 1px rgba(245,245,245,0.4);
+  color: transparent;
+}
+
+.hero-desc {
+  color: var(--gray-light);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  max-width: 420px;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.7s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.9s forwards;
+}
+
+.btn-main {
+  background: var(--lime);
+  color: var(--black);
+  padding: 1rem 2.2rem;
+  border-radius: 2px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-main:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(212,240,96,0.25);
+}
+
+.hero-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--gray-light);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.hero-link:hover { color: var(--white); }
+.hero-link-arrow {
+  width: 28px; height: 1px;
+  background: currentColor;
+  position: relative;
+  transition: width 0.3s;
+}
+.hero-link:hover .hero-link-arrow { width: 40px; }
+.hero-link-arrow::after {
+  content: '';
+  position: absolute;
+  right: 0; top: -3px;
+  width: 6px; height: 6px;
+  border-right: 1px solid currentColor;
+  border-top: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+
+/* HERO RIGHT */
+.hero-right {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  opacity: 0;
+  animation: fadeLeft 1s ease 1s forwards;
+}
+
+.hero-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: border-color 0.3s;
+}
+.hero-card:hover { border-color: var(--border-light); }
+
+.hero-card-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.hero-card-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 300;
+  color: var(--lime);
+}
+
+.hero-card-sub {
+  font-size: 0.78rem;
+  color: var(--gray);
+  margin-top: 0.2rem;
+}
+
+.availability-card {
+  background: var(--lime-dim);
+  border: 1px solid rgba(212,240,96,0.2);
+  border-radius: 8px;
+  padding: 1.2rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avail-dot {
+  width: 8px; height: 8px;
+  background: var(--lime);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: blink 2s infinite;
+}
+
+.avail-text {
+  font-size: 0.82rem;
+  color: var(--lime);
+  letter-spacing: 0.05em;
+}
+
+/* MARQUEE */
+.marquee-section {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1.2rem 0;
+  overflow: hidden;
+  background: var(--off-black);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 4rem;
+  animation: marquee 20s linear infinite;
+  white-space: nowrap;
+}
+
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray);
+  flex-shrink: 0;
+}
+
+.marquee-dot {
+  width: 4px; height: 4px;
+  background: var(--lime);
+  border-radius: 50%;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* WORK SECTION */
+.work-section {
+  padding: 8rem 5vw;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 4rem;
+}
+
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.eyebrow-line {
+  width: 24px; height: 1px;
+  background: var(--lime);
+}
+
+.eyebrow-text {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--lime);
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+.section-title em { font-style: italic; }
+
+.section-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--gray);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.3s;
+  padding-bottom: 0.3rem;
+}
+.section-link:hover { color: var(--lime); }
+
+/* PROJECT CARDS */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.project-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.4s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.project-card:hover { border-color: var(--border-light); transform: translateY(-6px); }
+
+.project-card.featured { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; }
+
+.project-thumb {
+  height: 280px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card.featured .project-thumb { height: 100%; min-height: 320px; }
+
+.project-thumb-bg {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.6s ease;
+}
+.project-card:hover .project-thumb-bg { transform: scale(1.04); }
+
+.thumb-salon {
+  background: url('https://images.unsplash.com/photo-1560066984-138daaa0e9e4?w=800&q=80') center/cover no-repeat;
+}
+.thumb-restaurant {
+  background: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80') center/cover no-repeat;
+}
+.thumb-gym {
+  background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80') center/cover no-repeat;
+}
+
+.thumb-icon {
+  font-size: 4rem;
+  position: relative;
+  z-index: 2;
+  opacity: 0.8;
+}
+
+.project-type-badge {
+  position: absolute;
+  top: 1.2rem; left: 1.2rem;
+  background: rgba(8,8,8,0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-light);
+  color: var(--gray-light);
+  padding: 0.35rem 0.9rem;
+  border-radius: 2px;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  z-index: 3;
+}
+
+.project-info {
+  padding: 2rem;
+}
+
+.project-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.1em;
+}
+
+.project-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin-bottom: 0.8rem;
+  line-height: 1.2;
+}
+
+.project-desc {
+  color: var(--gray-light);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.project-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.project-tag {
+  border: 1px solid var(--border-light);
+  color: var(--gray);
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.project-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--lime);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 1.5rem;
+  transition: gap 0.3s;
+}
+.project-card:hover .project-arrow { gap: 0.9rem; }
+
+/* ABOUT */
+.about-section {
+  padding: 8rem 5vw;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8rem;
+  align-items: center;
+}
+
+.about-left { position: relative; }
+
+.about-visual {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(212,240,96,0.08) 0%, transparent 60%);
+}
+
+.about-badge {
+  position: absolute;
+  background: var(--lime);
+  color: var(--black);
+  padding: 0.9rem 1.4rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.about-badge.b1 { bottom: 2rem; right: -1.5rem; }
+.about-badge.b2 {
+  top: 2rem; left: -1.5rem;
+  background: var(--card);
+  border: 1px solid var(--border-light);
+  color: var(--gray-light);
+  font-weight: 400;
+}
+
+.about-right {}
+
+.about-body {
+  color: var(--gray-light);
+  font-size: 0.95rem;
+  line-height: 1.9;
+  margin-bottom: 1.5rem;
+}
+
+.about-body strong { color: var(--white); font-weight: 500; }
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-top: 2.5rem;
+}
+
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.8rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--gray-light);
+  transition: border-color 0.3s, color 0.3s;
+}
+.skill-item:hover { border-color: var(--lime); color: var(--white); }
+
+.skill-dot {
+  width: 5px; height: 5px;
+  background: var(--lime);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* PROCESS */
+.process-section {
+  padding: 8rem 5vw;
+  border-top: 1px solid var(--border);
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 4rem;
+}
+
+.process-item {
+  background: var(--card);
+  padding: 2.5rem 2rem;
+  transition: background 0.3s;
+}
+.process-item:hover { background: #191919; }
+
+.process-step {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  font-weight: 300;
+  color: rgba(212,240,96,0.2);
+  margin-bottom: 1.5rem;
+  line-height: 1;
+}
+
+.process-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  color: var(--white);
+}
+
+.process-desc {
+  color: var(--gray);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+/* TRUST */
+.trust-section {
+  padding: 8rem 5vw;
+  border-top: 1px solid var(--border);
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 4rem;
+}
+
+.trust-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2.5rem;
+  transition: border-color 0.3s;
+}
+.trust-card:hover { border-color: var(--border-light); }
+
+.trust-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--gray-light);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.trust-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.trust-avatar {
+  width: 38px; height: 38px;
+  background: var(--lime-dim);
+  border: 1px solid rgba(212,240,96,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: var(--lime);
+  font-weight: 700;
+}
+
+.trust-name {
+  font-size: 0.85rem;
+  color: var(--white);
+  font-weight: 500;
+}
+
+.trust-role {
+  font-size: 0.75rem;
+  color: var(--gray);
+  margin-top: 0.15rem;
+}
+
+.trust-stars {
+  color: var(--lime);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+/* CONTACT */
+.contact-section {
+  padding: 8rem 5vw;
+  border-top: 1px solid var(--border);
+}
+
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8rem;
+  align-items: start;
+}
+
+.contact-left {}
+
+.contact-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.contact-tagline em { font-style: italic; color: var(--lime); }
+
+.contact-body {
+  color: var(--gray-light);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+}
+
+.contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-method {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--white);
+  font-size: 0.85rem;
+  transition: border-color 0.3s, background 0.3s;
+}
+.contact-method:hover {
+  border-color: var(--lime);
+  background: var(--lime-dim);
+}
+
+.contact-method-label { color: var(--gray); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.contact-method-value { font-size: 0.88rem; margin-top: 0.2rem; }
+
+.contact-method-arrow {
+  color: var(--lime);
+  font-size: 1.2rem;
+}
+
+/* GUARANTEE */
+.guarantee-box {
+  background: var(--lime-dim);
+  border: 1px solid rgba(212,240,96,0.2);
+  border-radius: 8px;
+  padding: 2.5rem;
+  margin-top: 2rem;
+}
+
+.guarantee-title {
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 1.5rem;
+}
+
+.guarantee-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.guarantee-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--gray-light);
+  line-height: 1.5;
+}
+
+.guarantee-check {
+  color: var(--lime);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: var(--gray);
+}
+
+.footer-copy {
+  font-size: 0.75rem;
+  color: var(--gray);
+  letter-spacing: 0.05em;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-social {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-social:hover { color: var(--lime); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding-top: 8rem; }
+  .hero-right { display: none; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+  .about-section { grid-template-columns: 1fr; gap: 3rem; }
+  .about-visual { height: 300px; }
+  .about-badge.b1, .about-badge.b2 { display: none; }
+  .process-grid { grid-template-columns: 1fr 1fr; }
+  .trust-grid { grid-template-columns: 1fr; }
+  .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+  nav { padding: 1.5rem 5vw; }
+  .nav-links { display: none; }
+  .work-section, .about-section, .process-section, .trust-section, .contact-section { padding: 5rem 5vw; }
+  .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Syed <span>Nowshad</span></a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Hire Me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">DESIGN</div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span class="hero-eyebrow-text">Available for projects</span>
+      <div class="hero-dot"></div>
+    </div>
+    <h1>I build websites<br>that <em>grow</em><br><span class="outline">businesses.</span></h1>
+    <p class="hero-desc">I design and build high-converting websites for businesses worldwide. Not just beautiful — but built to bring you more customers, more trust, and more revenue.</p>
+    <div class="hero-actions">
+      <a href="#work" class="btn-main">See My Work</a>
+      <a href="#contact" class="hero-link">
+        <div class="hero-link-arrow"></div>
+        Start a project
+      </a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="availability-card">
+      <div class="avail-dot"></div>
+      <span class="avail-text">Currently accepting new clients — worldwide</span>
+    </div>
+    <div class="hero-card">
+      <div>
+        <div class="hero-card-label">Delivery Time</div>
+        <div class="hero-card-sub">Per project</div>
+      </div>
+      <div>
+        <div class="hero-card-value">7</div>
+        <div class="hero-card-sub" style="text-align:right">days avg.</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div>
+        <div class="hero-card-label">Client Satisfaction</div>
+        <div class="hero-card-sub">Guaranteed</div>
+      </div>
+      <div>
+        <div class="hero-card-value">100%</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div>
+        <div class="hero-card-label">Revision Policy</div>
+        <div class="hero-card-sub">Until you love it</div>
+      </div>
+      <div style="color: var(--lime); font-size: 1.5rem">∞</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><div class="marquee-dot"></div>Web Design</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Business Websites</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Landing Pages</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>E-Commerce</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Fast Delivery</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Mobile Friendly</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>International Clients</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Results Focused</div>
+    <!-- repeat -->
+    <div class="marquee-item"><div class="marquee-dot"></div>Web Design</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Business Websites</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Landing Pages</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>E-Commerce</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Fast Delivery</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Mobile Friendly</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>International Clients</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Results Focused</div>
+  </div>
+</div>
+
+<!-- WORK -->
+<section class="work-section" id="work">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">
+        <div class="eyebrow-line"></div>
+        <span class="eyebrow-text">Selected Work</span>
+      </div>
+      <h2 class="section-title">Recent <em>Projects</em></h2>
+    </div>
+    <a href="#contact" class="section-link">Start your project →</a>
+  </div>
+
+  <div class="projects-grid">
+    <!-- Featured -->
+    <a href="https://namma-style-hubb.lovable.app" target="_blank" class="project-card featured reveal">
+      <div class="project-thumb">
+        <div class="project-thumb-bg thumb-salon"></div>
+        <div class="project-type-badge">Beauty & Wellness</div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">01 — Featured</div>
+        <div class="project-title">Namma Beauty World</div>
+        <p class="project-desc">A premium unisex salon in Bengaluru needed a website that matched their luxury brand. Built with WhatsApp booking integration, full services menu, and a design that converts visitors into appointments.</p>
+        <div class="project-tags">
+          <span class="project-tag">Web Design</span>
+          <span class="project-tag">UI/UX</span>
+          <span class="project-tag">Booking Integration</span>
+          <span class="project-tag">Mobile Optimized</span>
+        </div>
+        <div class="project-arrow">View Live Site →</div>
+      </div>
+    </a>
+
+    <a href="https://rowena-station-fuel.lovable.app" target="_blank" class="project-card reveal">
+      <div class="project-thumb">
+        <div class="project-thumb-bg thumb-restaurant"></div>
+        <div class="project-type-badge">Restaurant · USA</div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">02</div>
+        <div class="project-title">Rowena Fillin' Station</div>
+        <p class="project-desc">A real Texas bar & grill in Rowena, TX needed a website that captured their rustic American charm. Built with full menu, reviews, hours, and Google Maps integration.</p>
+        <div class="project-tags">
+          <span class="project-tag">Web Design</span>
+          <span class="project-tag">Restaurant</span>
+          <span class="project-tag">USA</span>
+        </div>
+        <div class="project-arrow">View Live Site →</div>
+      </div>
+    </a>
+
+    <div class="project-card reveal">
+      <div class="project-thumb">
+        <div class="project-thumb-bg thumb-gym"></div>
+        <div class="project-type-badge">Fitness</div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">03</div>
+        <div class="project-title">Fitness Studio</div>
+        <p class="project-desc">Coming soon — a gym website with class schedules, pricing, and online sign-up.</p>
+        <div class="project-tags">
+          <span class="project-tag">Web Design</span>
+          <span class="project-tag">Lead Generation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-left reveal">
+    <div class="about-visual">
+      👨‍💻
+      <div class="about-badge b2">📍 India · Works Globally</div>
+      <div class="about-badge b1">🌍 Open to International Clients</div>
+    </div>
+  </div>
+  <div class="about-right">
+    <div class="section-eyebrow reveal">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">About Me</span>
+    </div>
+    <h2 class="section-title reveal" style="margin-bottom: 2rem;">The person<br>behind the <em>work</em></h2>
+    <p class="about-body reveal">I'm <strong>Syed Nowshad</strong>, a web designer based in India with a simple mission — help businesses look great and grow online.</p>
+    <p class="about-body reveal">I don't just build websites. I build <strong>tools for your business</strong> — ones that work while you sleep, bring in customers, and make your brand look like it belongs at the top.</p>
+    <p class="about-body reveal">I work with clients across the US, UK, and beyond. Clear communication, fast delivery, and results you can actually see.</p>
+    <div class="skills-grid reveal">
+      <div class="skill-item"><div class="skill-dot"></div>UI / UX Design</div>
+      <div class="skill-item"><div class="skill-dot"></div>Responsive Design</div>
+      <div class="skill-item"><div class="skill-dot"></div>Landing Pages</div>
+      <div class="skill-item"><div class="skill-dot"></div>E-Commerce Sites</div>
+      <div class="skill-item"><div class="skill-dot"></div>WhatsApp Integration</div>
+      <div class="skill-item"><div class="skill-dot"></div>Fast Delivery</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section" id="process">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">
+        <div class="eyebrow-line"></div>
+        <span class="eyebrow-text">How I Work</span>
+      </div>
+      <h2 class="section-title">Simple <em>process,</em><br>great results</h2>
+    </div>
+  </div>
+  <div class="process-grid reveal">
+    <div class="process-item">
+      <div class="process-step">01</div>
+      <div class="process-title">Discovery</div>
+      <p class="process-desc">We talk about your business, your goals, and who your customers are. I learn everything about what you need.</p>
+    </div>
+    <div class="process-item">
+      <div class="process-step">02</div>
+      <div class="process-title">Design</div>
+      <p class="process-desc">I design a custom website that matches your brand and is built to convert visitors into customers.</p>
+    </div>
+    <div class="process-item">
+      <div class="process-step">03</div>
+      <div class="process-title">Review</div>
+      <p class="process-desc">You review everything. Unlimited revisions until you're 100% happy — no extra charge, no questions asked.</p>
+    </div>
+    <div class="process-item">
+      <div class="process-step">04</div>
+      <div class="process-title">Launch</div>
+      <p class="process-desc">Your site goes live. I handle everything technical — you just watch your business grow online.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust-section">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">
+        <div class="eyebrow-line"></div>
+        <span class="eyebrow-text">Client Words</span>
+      </div>
+      <h2 class="section-title">What clients <em>say</em></h2>
+    </div>
+  </div>
+  <div class="trust-grid">
+    <div class="trust-card reveal">
+      <div class="trust-stars">★★★★★</div>
+      <p class="trust-quote">"Syed built our salon website and it was exactly what we needed. Bookings went up immediately after launch. Very professional and fast."</p>
+      <div class="trust-author">
+        <div class="trust-avatar">N</div>
+        <div>
+          <div class="trust-name">Namma Beauty World</div>
+          <div class="trust-role">Salon Owner · Bengaluru, India</div>
+        </div>
+      </div>
+    </div>
+    <div class="trust-card reveal">
+      <div class="trust-stars">★★★★★</div>
+      <p class="trust-quote">"Fast, reliable, and the design was better than I expected. He understood exactly what my business needed and delivered quickly."</p>
+      <div class="trust-author">
+        <div class="trust-avatar">R</div>
+        <div>
+          <div class="trust-name">Restaurant Client</div>
+          <div class="trust-role">Business Owner</div>
+        </div>
+      </div>
+    </div>
+    <div class="trust-card reveal">
+      <div class="trust-stars">★★★★★</div>
+      <p class="trust-quote">"Communication was great throughout the whole project. He replied fast, made changes quickly, and the final result was excellent."</p>
+      <div class="trust-author">
+        <div class="trust-avatar">S</div>
+        <div>
+          <div class="trust-name">Small Business Owner</div>
+          <div class="trust-role">E-commerce · India</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <div class="section-eyebrow reveal">
+        <div class="eyebrow-line"></div>
+        <span class="eyebrow-text">Get In Touch</span>
+      </div>
+      <h2 class="contact-tagline reveal">Ready to grow<br>your business <em>online?</em></h2>
+      <p class="contact-body reveal">Tell me about your project. I'll get back to you within 24 hours — usually faster. No complicated forms, no agency fluff. Just a real conversation about what you need.</p>
+      <div class="contact-methods reveal">
+        <a href="mailto:bysyed.design@gmail.com" class="contact-method">
+          <div>
+            <div class="contact-method-label">Email</div>
+            <div class="contact-method-value">bysyed.design@gmail.com</div>
+          </div>
+          <div class="contact-method-arrow">→</div>
+        </a>
+        <a href="https://wa.me/919014439790" target="_blank" class="contact-method">
+          <div>
+            <div class="contact-method-label">WhatsApp</div>
+            <div class="contact-method-value">+91 90144 39790</div>
+          </div>
+          <div class="contact-method-arrow">→</div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-right reveal">
+      <div class="guarantee-box">
+        <div class="guarantee-title">My Promise to Every Client</div>
+        <div class="guarantee-items">
+          <div class="guarantee-item">
+            <span class="guarantee-check">✓</span>
+            <span>Response within 24 hours — always</span>
+          </div>
+          <div class="guarantee-item">
+            <span class="guarantee-check">✓</span>
+            <span>Unlimited revisions until you're 100% satisfied</span>
+          </div>
+          <div class="guarantee-item">
+            <span class="guarantee-check">✓</span>
+            <span>Mobile-friendly design on every single project</span>
+          </div>
+          <div class="guarantee-item">
+            <span class="guarantee-check">✓</span>
+            <span>Fast delivery — most projects done in 7 days</span>
+          </div>
+          <div class="guarantee-item">
+            <span class="guarantee-check">✓</span>
+            <span>Clear communication in English throughout</span>
+          </div>
+          <div class="guarantee-item">
+            <span class="guarantee-check">✓</span>
+            <span>Your website works perfectly before I hand it over</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Syed Nowshad</div>
+  <div class="footer-copy">© 2026 · Web Designer · India 🇮🇳</div>
+  <div class="footer-socials">
+    <a href="mailto:bysyed.design@gmail.com" class="footer-social">Email</a>
+    <a href="https://wa.me/919014439790" class="footer-social">WhatsApp</a>
+  </div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 100);
+    }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
